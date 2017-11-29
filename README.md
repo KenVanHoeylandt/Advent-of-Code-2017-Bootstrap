@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This repository contains a Kotlin bootstrap project for Advent of Code 2017. It also comes with an optional RxJava2 dependency.
+This repository contains a Kotlin bootstrap project for Advent of Code. It also comes with the RxJava2 dependency for some (optional) reactive fun.
 
 The project fetches the data for each day from the server, provided that you start it with the required session token (see explanation below). The data is cached, to ensure fast subsequent runs of your application.
 
