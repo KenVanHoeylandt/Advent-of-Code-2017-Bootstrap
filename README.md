@@ -43,6 +43,8 @@ Create a new run configuration and enter the following data:
 
 ![screenshot](docs/intellij_application_dialog.png)
 
-## Adding more solutions
+## Creating solutions
 
-If you want to add a new day you need to create a new solution class and append it to the `solutions` array in the `Application` class.
+The bootstrap template only contains the classes to start with day 1.
+
+To add a new day, you need to create a new `Solution` class and append it to the `Application.solutions` array field.
