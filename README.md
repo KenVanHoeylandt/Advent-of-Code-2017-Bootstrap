@@ -2,11 +2,9 @@
 
 ## Introduction
 
-This repository contains a bootstrap project for Advent of Code 2017.
+This repository contains a Kotlin bootstrap project for Advent of Code 2017. It also comes with an optional RxJava2 dependency.
 
-Assignment data is cached within the project.
-The Framework either retrieves the local data (if available) or otherwise retrieves the data from the server.
-If you want to use the framework for your own assignments, make sure to delete all contents of the `data/` folder after forking.
+The project fetches the data for each day from the server, provided that you start it with the required session token (see explanation below). The data is cached, to ensure fast subsequent runs of your application.
 
 ## Running the application
 
