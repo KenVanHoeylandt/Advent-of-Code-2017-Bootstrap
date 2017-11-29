@@ -16,7 +16,7 @@ class SessionService(private val requestService: RequestService) {
         cookie.domain = "adventofcode.com"
 
         try {
-            requestService.cookieStore.add(URI("http://adventofcode.com"), cookie)
+            requestService.cookieStore.add(URI("https://adventofcode.com"), cookie)
         } catch (e: URISyntaxException) {
             e.printStackTrace()
         }

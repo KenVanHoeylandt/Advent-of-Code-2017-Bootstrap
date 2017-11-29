@@ -1,5 +1,6 @@
 package aoc.services
 
+import aoc.Configuration
 import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import java.io.File
@@ -43,7 +44,7 @@ class ChallengeInputService(private val requestService: RequestService) {
 	 */
 	private fun getInputFromWebsite(day: Int): Single<String> {
 		val request = requestService.requestBuilder()
-				.url("http://adventofcode.com/2017/day/$day/input")
+				.url("https://adventofcode.com/${Configuration.year}/day/$day/input")
 				.build()
 
 		return requestService.executeForString(request)
