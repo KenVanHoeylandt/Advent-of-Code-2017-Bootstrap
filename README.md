@@ -41,7 +41,7 @@ A session token can be fetched by logging in on your browser and debugging the b
 
 Create a new run configuration and enter the following data:
 
-[!screenshot](docs/intellij_application_dialog.png)
+![screenshot](docs/intellij_application_dialog.png)
 
 ## Adding more solutions
 
