@@ -19,7 +19,7 @@ open class Application {
         @JvmStatic
         fun main(args: Array<String>) {
 
-            println("Advent of Code solutions by Ken Van Hoeylandt")
+            println("Advent of Code solutions")
             println()
 
             try {
@@ -40,40 +40,46 @@ open class Application {
 
             } catch (caught: Exception) {
                 println("Usage:")
-                println("\tjava -jar AdventOfCode2016.jar [sessionToken] [day]")
+                println("\tjava -jar AdventOfCode.jar [sessionToken] [day]")
             }
         }
 
         private fun solve(solution: Solution): Single<String> {
             println("Retrieving assignment data...")
 
-            return challengeInputService.request(solution.day)
-                    .map {
-                        println("Solving assignment...")
-                        profiler.start("Solution Part 1")
-                        val resultPartOne = solution.solvePartOne(it)
-                        profiler.stop("Solution Part 1")
+            return challengeInputService.getInput(solution.day)
+                    .map { getSolutionTextFromInput(solution, it) }
+                    .doOnError { handleSolutionError(it) }
+                    .doOnSuccess { handleSolutionSuccess(solution, it)}
+        }
 
-                        profiler.start("Solution Part 2")
-                        val resultPartTwo = solution.solvePartTwo(it)
-                        profiler.stop("Solution Part 2")
+        private fun getSolutionTextFromInput(solution: Solution, input: String): String {
+            println("Solving assignment...")
+            profiler.start("Solution Part 1")
+            val resultPartOne = solution.solvePartOne(input)
+            profiler.stop("Solution Part 1")
 
-                        " - part 1: $resultPartOne\n - part 2: $resultPartTwo"
-                    }
-                    .doOnError {
-                        println("error when solving assignment")
+            profiler.start("Solution Part 2")
+            val resultPartTwo = solution.solvePartTwo(input)
+            profiler.stop("Solution Part 2")
 
-                        val message = it.message
+            return " - part 1: $resultPartOne\n - part 2: $resultPartTwo"
+        }
 
-                        if (message != null) {
-                            println("Solution failed: $message")
-                        }
+        private fun handleSolutionError(caught: Throwable) {
+            println("error when solving assignment")
 
-                        it.printStackTrace()
-                    }
-                    .doOnSuccess {
-                        println("Solution for day ${solution.day}:\n$it")
-                    }
+            val message = caught.message
+
+            if (message != null) {
+                println("Solution failed: $message")
+            }
+
+            caught.printStackTrace()
+        }
+
+        private fun handleSolutionSuccess(solution: Solution, output: String) {
+            println("Solution for day ${solution.day}:\n$output")
         }
     }
 }

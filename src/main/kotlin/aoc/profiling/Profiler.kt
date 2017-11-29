@@ -15,7 +15,7 @@ class Profiler {
 
 	fun stop(tag: String) {
 		val stop = System.currentTimeMillis()
-		val start = map.get(tag)
+		val start = map[tag]
 
 		if (start != null) {
 			val duration = stop - start

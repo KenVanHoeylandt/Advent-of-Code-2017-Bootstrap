@@ -1,4 +1,4 @@
-# Advent of Code 2017
+# Advent of Code Kotlin Bootstrap
 
 ## Introduction
 
@@ -30,7 +30,7 @@ Building the jar file:
 Running the jar file:
 
 ```
-java -jar build/libs/AdventOfCode2017.jar [sessionToken] [day]
+java -jar build/libs/AdventOfCode.jar [sessionToken] [day]
 ```
 
 A session token can be fetched by logging in on your browser and debugging the browser request.

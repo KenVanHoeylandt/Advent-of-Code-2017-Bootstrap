@@ -13,24 +13,22 @@ class ChallengeInputService(private val requestService: RequestService) {
 	/**
 	 * Retrieve the assignment data for a specific day.
 	 * @param day the day to retrieve data for
-	 * *
 	 * @return the data as a String
 	 */
-	fun request(day: Int): Single<String> {
-		if (getLocalFile(day).exists()) {
-			return getFromLocalFile(day)
+	fun getInput(day: Int): Single<String> {
+		return if (getLocalFile(day).exists()) {
+			getInputFromLocalFile(day)
 		} else {
-			return getFromWebsite(day)
+			getInputFromWebsite(day)
 		}
 	}
 
 	/**
 	 * Retrieve the assignment data for a specific day from a local file.
 	 * @param day the day to retrieve data for
-	 * *
 	 * @return the data as a String
 	 */
-	private fun getFromLocalFile(day: Int): Single<String> {
+	private fun getInputFromLocalFile(day: Int): Single<String> {
 		return Single.just(day)
 				.observeOn(Schedulers.io())
 				.map { getLocalFile(it) }
@@ -41,36 +39,44 @@ class ChallengeInputService(private val requestService: RequestService) {
 	/**
 	 * Retrieve the assignment data for a specific day from the website.
 	 * @param day the day to retrieve data for
-	 * *
 	 * @return the data as a String
 	 */
-	private fun getFromWebsite(day: Int): Single<String> {
+	private fun getInputFromWebsite(day: Int): Single<String> {
 		val request = requestService.requestBuilder()
 				.url("http://adventofcode.com/2016/day/$day/input")
 				.build()
 
 		return requestService.executeForString(request)
-				.map {
-					// Strip newline character
-					if (it.endsWith('\n')) {
-						it.substring(0, it.length - 1)
-					} else {
-						it
-					}
-				}
-				.doOnSuccess {
-					// Write data to local cache
-					val file = getLocalFile(day)
+				.map { stripNewline(it) }
+				.doOnSuccess { storeInputToFile(it, day) }
+	}
 
-					if (!file.exists()) {
-						file.createNewFile()
-					}
+	/**
+	 * Strips the last character if it is a newline character and returns the resulting String.
+	 */
+	private fun stripNewline(text: String): String {
+		return if (text.endsWith('\n')) {
+			text.substring(0, text.length - 1)
+		} else {
+			text
+		}
+	}
 
-					// Assignment data is not very big, so we can write it unbuffered
-					val outputStream = FileOutputStream(file)
-					outputStream.write(it.toByteArray())
-					outputStream.close()
-				}
+	/**
+	 * Store the text input for the specified day.
+	 */
+	private fun storeInputToFile(text: String, day: Int) {
+		// Write data to local cache
+		val file = getLocalFile(day)
+
+		if (!file.exists()) {
+			file.createNewFile()
+		}
+
+		// Assignment data is not very big, so we can write it unbuffered
+		val outputStream = FileOutputStream(file)
+		outputStream.write(text.toByteArray())
+		outputStream.close()
 	}
 
 	/**

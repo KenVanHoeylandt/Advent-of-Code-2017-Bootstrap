@@ -1,6 +1,5 @@
 buildscript {
 	ext.kotlinVersion = '1.1.61'
-	ext.aocYear = '2017'
 	ext.mainClass = 'aoc.Application'
 
 	repositories {
@@ -19,12 +18,12 @@ apply plugin: "kotlin"
 
 jar {
 	manifest {
-		attributes 'Implementation-Title': "Advent of Code Solution $aocYear",
+		attributes 'Implementation-Title': "Advent of Code Solutions",
 				'Implementation-Version': '1.0.0',
 				'Main-Class': mainClass
 	}
 
-	archiveName "AdventOfCode${aocYear}.jar"
+	archiveName "AdventOfCode.jar"
 
 	// add all dependencies inside the jar so it can be executed independently from the commandline
 	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
