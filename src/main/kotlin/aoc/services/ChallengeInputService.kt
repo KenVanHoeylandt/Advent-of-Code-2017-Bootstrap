@@ -43,7 +43,7 @@ class ChallengeInputService(private val requestService: RequestService) {
 	 */
 	private fun getInputFromWebsite(day: Int): Single<String> {
 		val request = requestService.requestBuilder()
-				.url("http://adventofcode.com/2016/day/$day/input")
+				.url("http://adventofcode.com/2017/day/$day/input")
 				.build()
 
 		return requestService.executeForString(request)
